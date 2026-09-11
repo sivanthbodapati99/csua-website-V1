@@ -127,7 +127,7 @@ export default function Home() {
           <p className="kicker">Around CSUA</p>
           <h2>There&apos;s usually something going on.</h2>
           <p>Some events are practical, some are social, and some are just an excuse to get CS students out of their rooms for a while.</p>
-          <a className="text-link section-link" href={`${BACKEND}/events/`}>Open the full events page →</a>
+          <a className="text-link" href={`${BACKEND}/events/`}>Open the full events page →</a>
         </div>
         <div className="thing-list">
           {thingsWeDo.map(([title, copy], index) => (
@@ -158,8 +158,8 @@ export default function Home() {
         <div className="hours-copy" data-reveal>
           <p className="kicker">Office hours</p>
           <h2>Need a hand?</h2>
-          <p>CSUA tracks officers, their office hours, and the classes they can help with. For now, the new site uses a shared Google Calendar here while we wire the structured officer data into the frontend.</p>
-          <a className="text-link section-link" href={`${BACKEND}/officers/`}>Current officers + tutoring info →</a>
+          <p className="body-copy">CSUA tracks officers, their office hours, and the classes they can help with. For now, the new site uses a shared Google Calendar here while we wire the structured officer data into the frontend.</p>
+          <a className="text-link" href={`${BACKEND}/officers/`}>Current officers + tutoring info →</a>
         </div>
         <div className="calendar-shell" data-reveal>
           <div className="calendar-head"><strong>CSUA office hours</strong><span>390 Cory</span></div>
@@ -174,21 +174,22 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="services" className="services section-pad">
-        <div className="services-intro" data-reveal>
+      <section id="services" className="things section-pad">
+        <div className="section-intro" data-reveal>
           <p className="kicker">More than events</p>
           <h2>CSUA has infrastructure, too.</h2>
           <p>One of the pieces worth carrying forward from the existing CSUA backend is the technical side of membership. CSUA has historically provided computing resources free to members.</p>
         </div>
-        <div className="service-list">
+        <div className="thing-list">
           {memberPerks.map(([title, copy], index) => (
-            <article className="service-row" key={title} data-reveal>
-              <span>0{index + 1}</span>
-              <div><h3>{title}</h3><p>{copy}</p></div>
+            <article className="thing-row" key={title} data-reveal>
+              <span className="thing-number">0{index + 1}</span>
+              <h3>{title}</h3>
+              <p>{copy}</p>
             </article>
           ))}
         </div>
-        <div className="service-actions" data-reveal>
+        <div className="join-actions" data-reveal style={{ maxWidth: '1150px', margin: '42px auto 0' }}>
           <a className="primary-link" href={`${BACKEND}/join/`}>Get a CSUA account</a>
           <a className="text-link" href={`${BACKEND}/tech/`}>Technical services →</a>
           <a className="text-link" href="https://github.com/CSUA/csua-utils/wiki">Root staff wiki ↗</a>
