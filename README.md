@@ -22,12 +22,5 @@ npm run dev
 
 Then open http://localhost:3000.
 
-## Next steps
 
-1. Replace prototype event data with real CSUA data.
-2. Add actual officer/PB photography and profiles.
-3. Add the real 311 Soda imagery.
-4. Decide final capybara illustration style.
-5. Add Events/Office/People/Industry routes.
-6. Add database + admin dashboard after the public design is approved.
-7. Deploy to Vercel.
+
