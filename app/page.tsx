@@ -1,47 +1,16 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import hikePhoto from './photo-data/hike';
+import officePhoto from './photo-data/office';
 
 type Theme = 'light' | 'dark';
 
-const eventTypes = [
-  {
-    number: '01',
-    title: 'Tech talks',
-    copy: 'Hear directly from engineers, researchers, founders, and alumni working across computing.',
-  },
-  {
-    number: '02',
-    title: 'Community',
-    copy: 'Meet people outside class through socials, game nights, study sessions, and spontaneous office hangs.',
-  },
-  {
-    number: '03',
-    title: 'Industry',
-    copy: 'Connect with teams through recruiting events, company talks, workshops, and the CSUA network.',
-  },
+const thingsWeDo = [
+  ['Events', 'Tech talks, socials, workshops, game nights, and whatever else sounds fun that week.'],
+  ['Office hours', 'Drop by 390 Cory to get help with a class, talk through a project, or just work around other people.'],
+  ['Industry', 'Meet engineers, founders, alumni, and teams that want to spend time with Berkeley students.'],
 ];
-
-function Capybara({ className = '' }: { className?: string }) {
-  return (
-    <div className={`capy ${className}`} aria-hidden="true">
-      <div className="capy-shadow" />
-      <div className="capy-leg capy-leg-back" />
-      <div className="capy-leg capy-leg-front" />
-      <div className="capy-body" />
-      <div className="capy-head">
-        <div className="capy-ear capy-ear-left"><span /></div>
-        <div className="capy-ear capy-ear-right"><span /></div>
-        <div className="capy-eye capy-eye-left" />
-        <div className="capy-eye capy-eye-right" />
-        <div className="capy-muzzle">
-          <div className="capy-nose" />
-          <div className="capy-mouth" />
-        </div>
-      </div>
-    </div>
-  );
-}
 
 function ThemeToggle({ theme, setTheme }: { theme: Theme; setTheme: (theme: Theme) => void }) {
   return (
@@ -75,20 +44,15 @@ export default function Home() {
 
   useEffect(() => {
     const targets = Array.from(document.querySelectorAll<HTMLElement>('[data-reveal]'));
-    if (!targets.length) return;
-
     const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('is-visible');
-            observer.unobserve(entry.target);
-          }
-        });
-      },
-      { threshold: 0.14, rootMargin: '0px 0px -4% 0px' },
+      (entries) => entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          observer.unobserve(entry.target);
+        }
+      }),
+      { threshold: 0.12, rootMargin: '0px 0px -5% 0px' },
     );
-
     targets.forEach((target) => observer.observe(target));
     return () => observer.disconnect();
   }, []);
@@ -98,281 +62,152 @@ export default function Home() {
       <header className="nav-shell">
         <nav className="nav" aria-label="Main navigation">
           <a href="#top" className="wordmark">CSUA<span>.</span></a>
-
           <div className={`nav-links ${menuOpen ? 'open' : ''}`}>
+            <a href="#about" onClick={() => setMenuOpen(false)}>About</a>
             <a href="#events" onClick={() => setMenuOpen(false)}>Events</a>
-            <a href="#office" onClick={() => setMenuOpen(false)}>Office</a>
-            <a href="#office-hours" onClick={() => setMenuOpen(false)}>Office Hours</a>
-            <a href="#people" onClick={() => setMenuOpen(false)}>People</a>
+            <a href="#office" onClick={() => setMenuOpen(false)}>390 Cory</a>
+            <a href="#office-hours" onClick={() => setMenuOpen(false)}>Office hours</a>
             <a href="#industry" onClick={() => setMenuOpen(false)}>Industry</a>
           </div>
-
           <div className="nav-actions">
             <ThemeToggle theme={theme} setTheme={setTheme} />
-            <a className="join-button" href="#join">Join CSUA <span>↗</span></a>
-            <button
-              className="menu-button"
-              type="button"
-              onClick={() => setMenuOpen((open) => !open)}
-              aria-label="Toggle navigation"
-              aria-expanded={menuOpen}
-            >
-              {menuOpen ? '×' : '☰'}
-            </button>
+            <a className="join-button" href="#join">Join us</a>
+            <button className="menu-button" type="button" onClick={() => setMenuOpen(!menuOpen)} aria-label="Toggle navigation">{menuOpen ? '×' : '☰'}</button>
           </div>
         </nav>
       </header>
 
-      <section id="top" className="hero section-dark">
-        <div className="hero-mesh" aria-hidden="true">
-          <div className="liquid-orb orb-blue" />
-          <div className="liquid-orb orb-violet" />
-          <div className="liquid-orb orb-gold" />
-          <div className="hero-noise" />
+      <section id="top" className="hero">
+        <div className="fluid-field" aria-hidden="true">
+          <div className="fluid-blob fluid-blue" />
+          <div className="fluid-blob fluid-purple" />
+          <div className="fluid-blob fluid-gold" />
+          <div className="fluid-sheen" />
         </div>
-
-        <div className="star star-1">✦</div>
-        <div className="star star-2">✦</div>
-        <div className="star star-3">✦</div>
-        <div className="star star-4">✦</div>
-        <div className="star star-5">✦</div>
-
-        <div className="hero-content" data-reveal>
-          <p className="eyebrow">UC BERKELEY · EST. 1972</p>
-          <h1>
-            COMPUTER<br />
-            <span>SCIENCE</span><br />
-            UNDERGRADUATE<br />
-            ASSOCIATION
-          </h1>
-
-          <div className="hero-bottom">
-            <p>Berkeley&apos;s undergraduate computer science community — built by students, for students.</p>
-            <div className="hero-ctas">
-              <a href="#events">Explore CSUA <span>↘</span></a>
-              <a href="#office">Visit 390 Cory <span>↘</span></a>
+        <div className="hero-inner" data-reveal>
+          <p className="kicker">UC Berkeley · since 1972</p>
+          <h1>Computer Science<br />Undergraduate Association</h1>
+          <div className="hero-lower">
+            <p>Berkeley&apos;s student-run computer science community. Come hang out, meet people, build things, and make Cal a little less anonymous.</p>
+            <div className="hero-links">
+              <a href="#office">Come by 390 Cory <span>↘</span></a>
+              <a href="#office-hours">Office hours <span>↘</span></a>
             </div>
           </div>
         </div>
-
-        <div className="hero-capy-stage" aria-hidden="true">
-          <div className="capy-halo" />
-          <Capybara className="hero-capy" />
-          <div className="capy-platform" />
-        </div>
-
-        <div className="scroll-cue">SCROLL TO EXPLORE <span>↓</span></div>
+        <div className="hero-scroll">scroll <span>↓</span></div>
       </section>
 
-      <section className="statement section-light">
-        <div className="section-number">01 / 07</div>
-        <div className="statement-copy" data-reveal>
-          <p className="eyebrow">THE COMMUNITY</p>
-          <h2>BUILT FOR<br /><em>BERKELEY CS.</em></h2>
-          <p className="lede">
-            CSUA brings Berkeley&apos;s undergraduate computer science community together through events,
-            office hours, industry opportunities, and a place to learn, build, and hang out.
-          </p>
-        </div>
-
-        <div className="giant-word" aria-hidden="true">CSUA</div>
-
-        <div className="stat-row" data-reveal>
-          <div><strong>1972</strong><span>Founded</span></div>
-          <div><strong>390</strong><span>Cory Hall</span></div>
-          <div><strong>∞</strong><span>Ways to get involved</span></div>
-        </div>
-      </section>
-
-      <section id="events" className="events section-light">
-        <div className="section-header" data-reveal>
-          <div>
-            <p className="eyebrow">02 / 07 · WHAT WE DO</p>
-            <h2>SHOW UP.<br /><em>FIND YOUR PEOPLE.</em></h2>
+      <section id="about" className="community section-pad">
+        <div className="community-copy" data-reveal>
+          <p className="kicker">This is CSUA</p>
+          <h2>A CS club that actually feels like a community.</h2>
+          <p className="body-copy">CSUA has been around for a long time, but the point is pretty simple: give Berkeley CS students a place to find each other. Some days that means a company talk. Other days it means homework, a hike, a game night, or sitting around the office way too late.</p>
+          <div className="small-facts">
+            <span><strong>1972</strong> founded</span>
+            <span><strong>390 Cory</strong> home base</span>
           </div>
-          <a className="text-link" href="#join">Get involved ↗</a>
         </div>
+        <figure className="photo-card hike-photo" data-reveal>
+          <img src={hikePhoto} alt="CSUA members on a Berkeley hike overlooking campus" />
+          <figcaption>A CSUA hike above Berkeley.</figcaption>
+        </figure>
+      </section>
 
-        <div className="event-grid">
-          {eventTypes.map((event) => (
-            <article className="event-tile" key={event.title} data-reveal>
-              <div className="event-number">{event.number}</div>
-              <div>
-                <h3>{event.title}</h3>
-                <p>{event.copy}</p>
-              </div>
-              <span className="event-arrow">↗</span>
+      <section id="events" className="things section-pad">
+        <div className="section-intro" data-reveal>
+          <p className="kicker">Around CSUA</p>
+          <h2>There&apos;s usually something going on.</h2>
+          <p>Not everything needs to be a huge production. We care about giving people reasons to show up and stick around.</p>
+        </div>
+        <div className="thing-list">
+          {thingsWeDo.map(([title, copy], index) => (
+            <article className="thing-row" key={title} data-reveal>
+              <span className="thing-number">0{index + 1}</span>
+              <h3>{title}</h3>
+              <p>{copy}</p>
             </article>
           ))}
         </div>
-        <div className="event-glow" />
       </section>
 
-      <section id="office" className="office section-dark">
-        <div className="office-backdrop" aria-hidden="true">390</div>
-        <div className="office-grid">
-          <div className="office-title" data-reveal>
-            <p className="eyebrow">03 / 07 · YOUR SPACE ON CAMPUS</p>
-            <h2>390<br /><span>CORY.</span></h2>
-          </div>
-
-          <div className="office-copy" data-reveal>
-            <p>
-              Study. Build. Play. Hang out. The CSUA office in 390 Cory Hall is a home base for Berkeley&apos;s
-              computer science community.
-            </p>
-            <div className="office-pills">
-              <span>Study space</span>
-              <span>Office hours</span>
-              <span>Community</span>
-              <span>Games</span>
-            </div>
-            <a className="text-link light-link" href="#office-hours">See office hours ↘</a>
-          </div>
+      <section id="office" className="office section-pad">
+        <div className="office-photo-wrap" data-reveal>
+          <img src={officePhoto} alt="Inside the CSUA office in 390 Cory Hall" />
+          <span className="photo-label">390 Cory Hall</span>
         </div>
-
-        <div className="office-scene" data-reveal>
-          <div className="scene-window">
-            <div className="window-glow" />
-            <span>390 CORY HALL · BERKELEY, CA</span>
-            <div className="scene-shelf" />
-            <div className="scene-desk" />
-            <div className="scene-monitor"><div /></div>
-            <div className="scene-lamp" />
-            <Capybara className="office-capy" />
-          </div>
+        <div className="office-copy" data-reveal>
+          <p className="kicker">The office</p>
+          <h2>Come through.</h2>
+          <p className="body-copy">390 Cory is our little corner of campus. It&apos;s a study spot, meeting room, office-hours space, snack stop, and occasional place to procrastinate between classes.</p>
+          <p className="office-note">If the door&apos;s open, you&apos;re welcome.</p>
+          <a className="text-link" href="#office-hours">See when people are around →</a>
         </div>
       </section>
 
-      <section id="office-hours" className="office-hours section-light">
-        <div className="office-hours-copy" data-reveal>
-          <p className="eyebrow">04 / 07 · OFFICE HOURS</p>
-          <h2>DROP IN.<br /><em>ASK ANYTHING.</em></h2>
-          <p>
-            See when CSUA officers are in 390 Cory, which courses they can help with, and when the office is a good
-            place to stop by. The schedule is powered by Google Calendar so updates can happen without redeploying the site.
-          </p>
-          <div className="calendar-key">
-            <span><i /> Officer hours</span>
-            <span><i /> Course help</span>
-            <span><i /> Community time</span>
-          </div>
+      <section id="office-hours" className="hours section-pad">
+        <div className="hours-copy" data-reveal>
+          <p className="kicker">Office hours</p>
+          <h2>Need a hand?</h2>
+          <p>Officers host office hours in 390 Cory. The calendar can list the person, course, and time, and updates show up here automatically.</p>
         </div>
-
         <div className="calendar-shell" data-reveal>
-          <div className="calendar-topbar">
-            <div>
-              <span className="calendar-dot" />
-              <strong>CSUA Office Hours</strong>
-            </div>
-            <span>390 Cory Hall</span>
-          </div>
-
+          <div className="calendar-head"><strong>CSUA office hours</strong><span>390 Cory</span></div>
           {officeHoursCalendarUrl ? (
-            <iframe
-              className="calendar-frame"
-              src={officeHoursCalendarUrl}
-              title="CSUA Office Hours Google Calendar"
-              loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
-            />
+            <iframe className="calendar-frame" src={officeHoursCalendarUrl} title="CSUA Office Hours Google Calendar" loading="lazy" referrerPolicy="no-referrer-when-downgrade" />
           ) : (
-            <div className="calendar-placeholder">
-              <div className="calendar-placeholder-grid" aria-hidden="true">
-                {Array.from({ length: 20 }).map((_, index) => <span key={index} />)}
-              </div>
-              <div className="calendar-placeholder-copy">
-                <span className="calendar-icon">CAL</span>
-                <h3>Google Calendar ready.</h3>
-                <p>Add the public CSUA office-hours embed URL to the site environment and the live schedule will appear here.</p>
-              </div>
+            <div className="calendar-empty">
+              <div className="calendar-mark">cal</div>
+              <div><h3>Calendar goes here.</h3><p>Connect the public Google Calendar embed URL and the live schedule will fill this space.</p></div>
             </div>
           )}
         </div>
       </section>
 
-      <section id="people" className="people section-light">
-        <div className="section-header" data-reveal>
-          <div>
-            <p className="eyebrow">05 / 07 · THE PEOPLE</p>
-            <h2>BEHIND CSUA.</h2>
-          </div>
-          <a className="text-link" href="#people">Meet everyone ↗</a>
+      <section id="people" className="people section-pad">
+        <div className="section-intro" data-reveal>
+          <p className="kicker">People</p>
+          <h2>Run by students who were new here once too.</h2>
+          <p>Officers keep the office alive, run events, work with companies, maintain CSUA infrastructure, and answer an unreasonable number of messages.</p>
         </div>
+        <div className="people-links" data-reveal>
+          <a href="#">Meet the officers <span>↗</span></a>
+          <a href="#">Meet the Politburo <span>↗</span></a>
+        </div>
+      </section>
 
-        <div className="people-grid">
-          <div className="person-card person-feature" data-reveal>
-            <div className="portrait placeholder-portrait one"><span>CSUA</span></div>
-            <h3>YOUR OFFICERS</h3>
-            <p>Meet the students who keep CSUA moving.</p>
-          </div>
-
-          <div className="person-card" data-reveal>
-            <div className="portrait placeholder-portrait two"><span>PB</span></div>
-            <h3>POLITBURO</h3>
-            <p>Learn who does what and how CSUA is run.</p>
-          </div>
-
-          <div className="person-card people-note" data-reveal>
-            <span>“You don&apos;t have to know anyone to get involved.”</span>
-            <Capybara className="people-capy" />
+      <section id="industry" className="industry section-pad">
+        <div className="industry-fluid" aria-hidden="true"><i /><i /><i /></div>
+        <div className="industry-copy" data-reveal>
+          <p className="kicker">For industry</p>
+          <h2>Meet Berkeley CS students without making it weird.</h2>
+          <p>Tech talks, recruiting events, workshops, sponsorships — we&apos;re happy to build something that makes sense for students and your team.</p>
+          <div className="industry-links">
+            <a href="#contact">Host something <span>↗</span></a>
+            <a href="#contact">Recruit with CSUA <span>↗</span></a>
+            <a href="#contact">Sponsor us <span>↗</span></a>
           </div>
         </div>
       </section>
 
-      <section id="industry" className="industry section-dark">
-        <div className="industry-orb" aria-hidden="true" />
-        <div className="section-number">06 / 07</div>
-        <div className="industry-inner" data-reveal>
-          <p className="eyebrow">FOR INDUSTRY</p>
-          <h2>CONNECT WITH<br /><span>BERKELEY CS.</span></h2>
-          <p className="industry-lede">
-            Partner with Berkeley&apos;s undergraduate computer science community through events, recruiting,
-            sponsorships, and more.
-          </p>
-          <div className="industry-actions">
-            <a href="#contact">Host an event <span>↗</span></a>
-            <a href="#contact">Recruit students <span>↗</span></a>
-            <a href="#contact">Sponsor CSUA <span>↗</span></a>
+      <section id="join" className="join section-pad">
+        <div data-reveal>
+          <p className="kicker">Get involved</p>
+          <h2>You can just show up.</h2>
+          <p>No elaborate initiation sequence. Come to an event, stop by the office, join the community, and see where it goes.</p>
+          <div className="join-actions">
+            <a className="primary-link" href="#contact">Join CSUA</a>
+            <a className="text-link" href="#events">See what we do →</a>
           </div>
         </div>
       </section>
 
-      <section id="join" className="join section-light">
-        <div className="join-bg" aria-hidden="true">JOIN</div>
-        <div className="join-inner" data-reveal>
-          <p className="eyebrow">07 / 07 · GET INVOLVED</p>
-          <h2>YOU&apos;RE<br /><em>INVITED.</em></h2>
-          <p>Come to an event. Stop by 390 Cory. Meet someone new. Make something happen.</p>
-          <div className="join-links">
-            <a href="#contact">Join CSUA <span>↗</span></a>
-            <a href="#people">Become an officer <span>↗</span></a>
-            <a href="#events">Come to an event <span>↗</span></a>
-          </div>
+      <footer id="contact" className="footer">
+        <div className="footer-main">
+          <div><div className="footer-wordmark">CSUA<span>.</span></div><p>UC Berkeley · 390 Cory Hall</p></div>
+          <div className="footer-links"><a href="#">Discord</a><a href="#">Instagram</a><a href="#">GitHub</a><a href="#">LinkedIn</a><a href="mailto:pb@csua.berkeley.edu">Contact</a></div>
         </div>
-      </section>
-
-      <footer id="contact" className="footer section-light">
-        <div className="footer-top">
-          <div className="footer-wordmark">CSUA<span>.</span></div>
-          <p>Computer Science Undergraduate Association<br />UC Berkeley · 390 Cory Hall</p>
-        </div>
-
-        <div className="footer-links">
-          <div><a href="#">Instagram</a><a href="#">Discord</a><a href="#">GitHub</a></div>
-          <div><a href="#">LinkedIn</a><a href="#">Contact</a><a href="#industry">Industry</a></div>
-        </div>
-
-        <div className="footer-meta">
-          <span>© 2026 CSUA · UC Berkeley</span>
-          <span>Made by students, for students.</span>
-        </div>
-
-        <div className="footer-fluid" aria-hidden="true">
-          <div className="fluid-layer layer-1" />
-          <div className="fluid-layer layer-2" />
-          <div className="footer-capy-track"><Capybara className="footer-capy" /></div>
-        </div>
+        <div className="footer-bottom"><span>© 2026 Computer Science Undergraduate Association</span><span>made by capybaras with ❤️</span></div>
       </footer>
     </main>
   );
