@@ -13,5 +13,5 @@ npm run dev
 
 Then open http://localhost:3000.
 
-
+"We may have our domain soon, TBA"
 
